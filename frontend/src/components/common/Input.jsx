@@ -1,8 +1,9 @@
 import React from 'react';
 import { AlertCircle } from 'lucide-react';
 
-const Input = React.memo(({
+const Input = React.memo((({
   label,
+  id,
   error,
   placeholder,
   type = 'text',
@@ -12,11 +13,13 @@ const Input = React.memo(({
   ...props
 }) => {
   const registerProps = register ? register(label, { required }) : {};
+  const inputId = id || label;
+  
   return (
     <div className={`w-full ${className}`}>
-      {label && <label htmlFor={label} className="block text-sm font-semibold text-gray-700 mb-2">{label}</label>}
+      {label && <label htmlFor={inputId} className="block text-sm font-semibold text-gray-700 mb-2">{label}</label>}
       <input
-        id={label}
+        id={inputId}
         type={type}
         placeholder={placeholder}
         className={`
@@ -39,7 +42,7 @@ const Input = React.memo(({
       )}    
     </div>
   );
-});
+}));
 
 Input.displayName = 'Input';
 export default Input;
