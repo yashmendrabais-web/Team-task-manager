@@ -8,7 +8,7 @@ async function getProjects(req, res) {
 		const projects = await projectModel.getAllByUserId(req.user.id);
 		return successResponse(res, 'Projects retrieved successfully', projects);
 	} catch (error) {
-		return errorResponse(res, 'Failed to get projects', 500);
+		return errorResponse(res, 'Failed to get projects', 500, error.message);
 	}
 }
 async function getProject(req, res) {
@@ -16,7 +16,7 @@ async function getProject(req, res) {
 		const project = await projectModel.getById(req.params.id, req.user.id);
 
 		if (!project) {
-			return errorResponse(res, 'Project not found', 404);
+			return errorResponse(res, 'Project not found', 404, error.message);
 		}
 		const members = await memberModel.getMembers(req.params.id);
 		return successResponse(res, 'Project retrieved successfully', {
@@ -24,7 +24,7 @@ async function getProject(req, res) {
 			members,
 		});
 	} catch (error) {
-		return errorResponse(res, 'Failed to get project', 500);
+		return errorResponse(res, 'Failed to get project', 500, error.message);
 	}
 }
 async function createProject(req, res) {
@@ -42,7 +42,7 @@ async function createProject(req, res) {
 			description,
 		}, 201);
 	} catch (error) {
-		return errorResponse(res, 'Failed to create project', 500);
+		return errorResponse(res, 'Failed to create project', 500, error.message);
 	}
 }
 async function updateProject(req, res) {
@@ -51,7 +51,7 @@ async function updateProject(req, res) {
 		await projectModel.update(req.params.id, { name, description });
 		return successResponse(res, 'Project updated');
 	} catch (error) {
-		return errorResponse(res, 'Failed to update project', 500);
+		return errorResponse(res, 'Failed to update project', 500, error.message);
 	}
 }
 async function deleteProject(req, res) {
@@ -59,7 +59,7 @@ async function deleteProject(req, res) {
 		await projectModel.deleteById(req.params.id);
 		return successResponse(res, 'Project deleted');
 	} catch (error) {
-		return errorResponse(res, 'Failed to delete project', 500);
+		return errorResponse(res, 'Failed to delete project', 500, error.message);
 	}
 }
 async function addMember(req, res) {
@@ -68,16 +68,16 @@ async function addMember(req, res) {
 		const projectId = req.params.id;
 		const user = await userModel.findByEmail(email);
 		if (!user) {
-			return errorResponse(res, 'User not registered. Ask them to register first.', 404);
+			return errorResponse(res, 'User not registered. Ask them to register first.', 404, error.message);
 		}
 		const alreadyMember = await memberModel.isMember(projectId, user.id);
 		if (alreadyMember) {
-			return errorResponse(res, 'User is already a member', 400);
+			return errorResponse(res, 'User is already a member', 400, error.message);
 		}
 		await memberModel.addMember(projectId, user.id, role);
 		return successResponse(res, 'Member added successfully');
 	} catch (error) {
-		return errorResponse(res, 'Failed to add member', 500);
+		return errorResponse(res, 'Failed to add member', 500, error.message);
 	}
 }
 async function removeMember(req, res) {
@@ -85,12 +85,12 @@ async function removeMember(req, res) {
 		const projectId = req.params.id;
 		const userId = req.params.uid;
 		if (String(userId) === String(req.user.id)) {
-			return errorResponse(res, 'Cannot remove yourself', 400);
+			return errorResponse(res, 'Cannot remove yourself', 400, error.message);
 		}
 		await memberModel.removeMember(projectId, userId);
 		return successResponse(res, 'Member removed');
 	} catch (error) {
-		return errorResponse(res, 'Failed to remove member', 500);
+		return errorResponse(res, 'Failed to remove member', 500, error.message);
 	}
 }
 module.exports = {

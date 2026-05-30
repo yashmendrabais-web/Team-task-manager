@@ -11,19 +11,19 @@ const initialState = {
 };
 export const fetchProjects = createAsyncThunk('projects/fetchProjects', async () => {
   const response = await projectApi.getProjects();
-  return response.data;
+  return response.data.data;
 });
 export const fetchProject = createAsyncThunk('projects/fetchProject', async (id) => {
   const response = await projectApi.getProject(id);
-  return response.data;
+  return response.data.data;
 });
 export const createProject = createAsyncThunk('projects/createProject', async (projectData) => {
   const response = await projectApi.createProject(projectData);
-  return response.data;
+  return response.data.data;
 });
 export const updateProject = createAsyncThunk('projects/updateProject', async ({ id, data }) => {
   const response = await projectApi.updateProject(id, data);
-  return response.data;
+  return response.data.data;
 });
 export const deleteProject = createAsyncThunk('projects/deleteProject', async (id) => {
   await projectApi.deleteProject(id);
@@ -32,7 +32,7 @@ export const deleteProject = createAsyncThunk('projects/deleteProject', async (i
 export const addProjectMember = createAsyncThunk('projects/addProjectMember', async ({ projectId, memberData }, { dispatch }) => {
   const response = await projectApi.addMember(projectId, memberData);
   dispatch(fetchProject(projectId));
-  return response.data;
+  return response.data.data;
 });
 
 export const removeProjectMember = createAsyncThunk('projects/removeProjectMember', async ({ projectId, userId }) => {
