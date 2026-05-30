@@ -19,6 +19,7 @@ async function getProjectTasks(req, res) {
 		}
 		return successResponse(res, 'Tasks retrieved successfully', tasks);
 	} catch (error) {
+		console.error('getProjectTasks error:', error);
 		return errorResponse(res, 'Failed to get project tasks', 500);
 	}
 }
@@ -27,6 +28,7 @@ async function getMyTasks(req, res) {
 		const tasks = await taskModel.getByAssignee(req.user.id);
 		return successResponse(res, 'My tasks retrieved successfully', tasks);
 	} catch (error) {
+		console.error('getMyTasks error:', error);
 		return errorResponse(res, 'Failed to get my tasks', 500);
 	}
 }
@@ -68,6 +70,7 @@ async function createTask(req, res) {
 			project_id,
 		}, 201);
 	} catch (error) {
+		console.error('createTask error:', error);
 		return errorResponse(res, 'Failed to create task', 500);
 	}
 }
@@ -109,6 +112,7 @@ async function updateTask(req, res) {
 		});
 		return successResponse(res, 'Task updated');
 	} catch (error) {
+		console.error('updateTask error:', error);
 		return errorResponse(res, 'Failed to update task', 500);
 	}
 }
@@ -130,6 +134,7 @@ async function updateTaskStatus(req, res) {
 		await taskModel.updateStatus(taskId, status);
 		return successResponse(res, 'Status updated');
 	} catch (error) {
+		console.error('updateTaskStatus error:', error);
 		return errorResponse(res, 'Failed to update task status', 500);
 	}
 }
@@ -150,6 +155,7 @@ async function deleteTask(req, res) {
 		await taskModel.deleteById(taskId);
 		return successResponse(res, 'Task deleted');
 	} catch (error) {
+		console.error('deleteTask error:', error);
 		return errorResponse(res, 'Failed to delete task', 500);
 	}
 }
