@@ -3,12 +3,6 @@ const { generateToken } = require('../utils/jwt.utils');
 const { hashPassword, comparePassword } = require('../utils/hash.utils');
 const { successResponse, errorResponse } = require('../utils/response.utils');
 
-const cookieOptions = {
-	httpOnly: true,
-	secure: true,
-	sameSite: 'none',
-	maxAge: 7 * 24 * 60 * 60 * 1000,
-};
 async function register(req, res) {
 	try {
 		const { name, email, password } = req.body;
@@ -23,17 +17,18 @@ async function register(req, res) {
 			password: hashedPassword,
 		});
 		const token = generateToken({ id: userId, name, email });
-		res.cookie('token', token, cookieOptions);
 		return successResponse(res, 'Registered successfully', {
 			id: userId,
 			name,
 			email,
+			token, 
 		}, 201);
 	} catch (error) {
 		console.log(error);
 		return errorResponse(res, 'Registration failed', 500);
 	}
 }
+
 async function login(req, res) {
 	try {
 		const { email, password } = req.body;
@@ -46,24 +41,25 @@ async function login(req, res) {
 			return errorResponse(res, 'Invalid credentials', 400);
 		}
 		const token = generateToken({ id: user.id, name: user.name, email: user.email });
-		res.cookie('token', token, cookieOptions);
 		return successResponse(res, 'Login successful', {
 			id: user.id,
 			name: user.name,
 			email: user.email,
+			token,  
 		});
 	} catch (error) {
 		return errorResponse(res, 'Login failed', 500);
 	}
 }
+
 async function logout(req, res) {
 	try {
-		res.clearCookie('token');
 		return successResponse(res, 'Logged out successfully', null);
 	} catch (error) {
 		return errorResponse(res, 'Logout failed', 500);
 	}
 }
+
 async function getMe(req, res) {
 	try {
 		const user = req.user || null;
@@ -76,6 +72,7 @@ async function getMe(req, res) {
 		return errorResponse(res, 'Failed to get user profile', 500);
 	}
 }
+
 module.exports = {
 	register,
 	login,
