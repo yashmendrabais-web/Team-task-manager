@@ -24,7 +24,7 @@ async function register(req, res) {
 			token, 
 		}, 201);
 	} catch (error) {
-		console.log(error);
+		console.error('Register error:', error);
 		return errorResponse(res, 'Registration failed', 500);
 	}
 }
@@ -48,6 +48,7 @@ async function login(req, res) {
 			token,  
 		});
 	} catch (error) {
+		console.error('Login error:', error);
 		return errorResponse(res, 'Login failed', 500);
 	}
 }
@@ -56,6 +57,7 @@ async function logout(req, res) {
 	try {
 		return successResponse(res, 'Logged out successfully', null);
 	} catch (error) {
+		console.error('Logout error:', error);
 		return errorResponse(res, 'Logout failed', 500);
 	}
 }
@@ -69,6 +71,7 @@ async function getMe(req, res) {
 		const { password, ...safeUser } = user;
 		return successResponse(res, 'User profile retrieved', safeUser);
 	} catch (error) {
+		console.error('Get me error:', error);
 		return errorResponse(res, 'Failed to get user profile', 500);
 	}
 }
@@ -79,3 +82,4 @@ module.exports = {
 	logout,
 	getMe,
 };
+

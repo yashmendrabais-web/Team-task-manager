@@ -14,9 +14,11 @@ async function searchUser(req, res) {
 		);
 		return successResponse(res, 'Users retrieved successfully', rows);
 	} catch (error) {
+		console.error('Search user error:', error);
 		return errorResponse(res, 'Failed to search users', 500);
 	}
 }
 module.exports = {
 	searchUser,
 };
+
