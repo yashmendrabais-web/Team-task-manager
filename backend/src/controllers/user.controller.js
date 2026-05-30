@@ -14,6 +14,7 @@ async function searchUser(req, res) {
 		);
 		return successResponse(res, 'Users retrieved successfully', rows);
 	} catch (error) {
+		console.error('searchUser error:', error);
 		return errorResponse(res, 'Failed to search users', 500);
 	}
 }

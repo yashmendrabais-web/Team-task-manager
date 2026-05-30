@@ -8,6 +8,7 @@ async function getProjects(req, res) {
 		const projects = await projectModel.getAllByUserId(req.user.id);
 		return successResponse(res, 'Projects retrieved successfully', projects);
 	} catch (error) {
+		console.error('getProjects error:', error);
 		return errorResponse(res, 'Failed to get projects', 500, error.message);
 	}
 }
@@ -24,6 +25,7 @@ async function getProject(req, res) {
 			members,
 		});
 	} catch (error) {
+		console.error('getProject error:', error);
 		return errorResponse(res, 'Failed to get project', 500, error.message);
 	}
 }
@@ -42,6 +44,7 @@ async function createProject(req, res) {
 			description,
 		}, 201);
 	} catch (error) {
+		console.error('createProject error:', error);
 		return errorResponse(res, 'Failed to create project', 500, error.message);
 	}
 }
@@ -51,6 +54,7 @@ async function updateProject(req, res) {
 		await projectModel.update(req.params.id, { name, description });
 		return successResponse(res, 'Project updated');
 	} catch (error) {
+		console.error('updateProject error:', error);
 		return errorResponse(res, 'Failed to update project', 500, error.message);
 	}
 }
@@ -59,6 +63,7 @@ async function deleteProject(req, res) {
 		await projectModel.deleteById(req.params.id);
 		return successResponse(res, 'Project deleted');
 	} catch (error) {
+		console.error('deleteProject error:', error);
 		return errorResponse(res, 'Failed to delete project', 500, error.message);
 	}
 }
@@ -77,6 +82,7 @@ async function addMember(req, res) {
 		await memberModel.addMember(projectId, user.id, role);
 		return successResponse(res, 'Member added successfully');
 	} catch (error) {
+		console.error('addMember error:', error);
 		return errorResponse(res, 'Failed to add member', 500, error.message);
 	}
 }
@@ -90,6 +96,7 @@ async function removeMember(req, res) {
 		await memberModel.removeMember(projectId, userId);
 		return successResponse(res, 'Member removed');
 	} catch (error) {
+		console.error('removeMember error:', error);
 		return errorResponse(res, 'Failed to remove member', 500, error.message);
 	}
 }
