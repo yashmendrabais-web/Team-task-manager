@@ -29,6 +29,10 @@ async function getProject(req, res) {
 }
 async function createProject(req, res) {
 	try {
+		if (!req.user || !req.user.id) {
+			console.log(req.user)
+			return errorResponse(res, 'Invalid token user', 401);
+		}
 		const { name, description } = req.body;
 		const newProjectId = await projectModel.create({
 			name,
