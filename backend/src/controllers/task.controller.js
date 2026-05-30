@@ -32,6 +32,9 @@ async function getMyTasks(req, res) {
 }
 async function createTask(req, res) {
 	try {
+
+		console.log("TASK CREATE PAYLOAD:", req.body);
+		console.log("USER:", req.user);
 		const {
 			title,
 			description,
@@ -60,7 +63,7 @@ async function createTask(req, res) {
 			created_by: req.user.id,
 			status: status || 'todo',
 			priority: priority || 'medium',
-			due_date: due_date || null,
+			due_date: due_date && due_date !== "" ? due_date : null,
 		});
 		return successResponse(res, 'Task created successfully', {
 			id: newTaskId,

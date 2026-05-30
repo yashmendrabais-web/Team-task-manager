@@ -68,6 +68,9 @@ async function deleteProject(req, res) {
 }
 async function addMember(req, res) {
 	try {
+		if (!newProjectId) {
+	return errorResponse(res, 'Project not created', 500);
+}
 		const { email, role = 'member' } = req.body;
 		const projectId = req.params.id;
 		const user = await userModel.findByEmail(email);

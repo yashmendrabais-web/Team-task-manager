@@ -14,7 +14,7 @@ async function protect(req, res, next) {
 		}
 		req.user = {
 			id: decoded.id || decoded.userId || decoded._id,
-		};;
+		};
 		return next();
 	} catch (error) {
 		return errorResponse(res, 'Not authorized, invalid token', 401);
