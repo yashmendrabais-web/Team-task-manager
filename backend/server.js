@@ -1,6 +1,7 @@
 require('dotenv').config();
 const app = require('./app');
 const pool = require('./src/config/db');
+const { initializeDatabase } = require('./src/config/init-db');
 const PORT = process.env.PORT || 5000;
 
 process.on('uncaughtException', err => {
@@ -11,8 +12,12 @@ process.on('unhandledRejection', err => {
 	console.error(err);
 	process.exit(1);
 });
+
 async function startServer() {
 	try {
+		// Initialize database tables
+		await initializeDatabase();
+
 		const connection = await pool.getConnection();
 		console.log('MySQL Connected');
 		connection.release();
@@ -22,6 +27,5 @@ async function startServer() {
 		process.exit(1);
 	}
 }
-startServer();
 
- 
+startServer();
