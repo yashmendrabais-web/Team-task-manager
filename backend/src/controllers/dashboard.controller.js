@@ -68,9 +68,11 @@ async function getDashboard(req, res) {
 			overdue_list: overdueRows,
 		});
 	} catch (error) {
+		console.error('Dashboard error:', error);
 		return errorResponse(res, 'Failed to get dashboard', 500);
 	}
 }
 module.exports = {
 	getDashboard,
 };
+
