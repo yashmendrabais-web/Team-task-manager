@@ -71,7 +71,8 @@ async function createTask(req, res) {
 			project_id,
 		}, 201);
 	} catch (error) {
-		return errorResponse(res, 'Failed to create task', 500);
+		console.error("CREATE TASK ERROR:", error);
+		return errorResponse(res, 'Failed to create task', 500, error.message);
 	}
 }
 async function updateTask(req, res) {
