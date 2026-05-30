@@ -22,8 +22,12 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      const isCheckingAuth = error.config?.url?.includes('/auth/me');
+      if (!isCheckingAuth) {
+        // ✅ Sirf tab redirect karo jab /auth/me na ho
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

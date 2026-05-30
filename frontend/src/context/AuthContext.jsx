@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         if (token) {
           const response = await authApi.getMe();
-          setUser(response.data);
+          setUser(response.data.data); // ✅ .data.data fix
         }
       } catch (error) {
         localStorage.removeItem('token');
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     const response = await authApi.login(credentials);
-    const { token, ...userData } = response.data.data; 
+    const { token, ...userData } = response.data.data;
     localStorage.setItem('token', token);
     setUser(userData);
     toast.success('Welcome back!');
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     const response = await authApi.register(userData);
-    const { token, ...user } = response.data.data; 
+    const { token, ...user } = response.data.data;
     localStorage.setItem('token', token);
     setUser(user);
     toast.success('Account created!');
