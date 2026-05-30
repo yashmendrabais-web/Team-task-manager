@@ -110,9 +110,9 @@ export const Projects = () => {
             {filter === 'all' ? 'All Projects' : `${filter.charAt(0).toUpperCase() + filter.slice(1)}`}
           </Button>
         ))}
-        <span className="ml-auto px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-semibold">{filteredProjects.length} Projects</span>
+        <span className="ml-auto px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-semibold">{(filteredProjects || []).length} Projects</span>
       </div>
-      {filteredProjects.length > 0 ? (
+      {(filteredProjects || []).length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => {
             const projectId = project._id ?? project.id;
