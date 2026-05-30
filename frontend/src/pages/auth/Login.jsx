@@ -16,12 +16,6 @@ export const Login = () => {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (auth.isAuthenticated) {
-      navigate('/');
-    }
-  }, [auth.isAuthenticated, navigate]);
-
   const onSubmit = async (data) => {
     try {
       await auth.login(data);
